@@ -12,13 +12,13 @@ services:
     # volumes:
     #  - postgres_data:/var/lib/postgresql/data
     env_file:
-     - .env
+      - .env
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d $$DATABASE_NAME -u $$DATABASE_USER"]
+      test: [ "CMD-SHELL", "pg_isready -d $$DATABASE_NAME -u $$DATABASE_USER" ]
       interval: 1s
       timeout: 5s
       retries: 10
-  
+
   web:
     build: .
     container_name: journal_app
@@ -30,15 +30,13 @@ services:
     depends_on:
       - db
     environment:
-     DJANGO_SECRET_KEY: ${SECRET_KEY}
-     DJANGO_ALLOWED_HOSTS: ${ALLOWED_HOSTS}
-     DATABASE_NAME: ${DATABASE_NAME}
-     DATABASE_USERNAME: ${DATABASE_USER}
- 
-     DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-     DATABASE_HOST: ${DB_HOST}
-     DATABASE_PORT: ${DB_PORT}
-    env_file:
-     - .env
+      DJANGO_SECRET_KEY: ${SECRET_KEY}
+      DJANGO_ALLOWED_HOSTS: ${ALLOWED_HOSTS}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USER}
 
-  
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_HOST: ${DB_HOST}
+      DATABASE_PORT: ${DB_PORT}
+    env_file:
+      - .env
