@@ -6,8 +6,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField()
     profile_pic = models.ImageField(upload_to='profile_pics/')
-    # objects = models.Manager()
-    # active_objects = models.Manager()
+    objects = models.Manager()
+    active_objects = models.Manager()
 
     def save_profile(self):
         """
@@ -71,6 +71,27 @@ class JournalEntry(models.Model):
         method deletes saved journal entry
         """
         self.delete()
+
+    @classmethod
+    def search_by_title(cls, title):
+        """
+        class method searches for a journal entry by title
+        """
+        return cls.objects.filter(title__icontains=title)
+
+    @classmethod
+    def search_by_archive_status(cls, status):
+        """
+        class method searches for a journal entry by archive status
+        """
+        return cls.objects.filter(is_archived=status)
+
+    @classmethod
+    def search_by_tags(cls, tags):
+        """
+        class method searches for a journal entry by tags
+        """
+        return cls.objects.filter(tags__name__icontains=tags)
 
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)

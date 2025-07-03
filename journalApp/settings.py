@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [config('ALLOWED_HOSTS'), '127.0.0.0']
 
 INSTALLED_APPS = [
     'entries.apps.EntriesConfig',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

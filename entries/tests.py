@@ -152,3 +152,30 @@ class JournalEntryClassTests(TestCase):
         entries = JournalEntry.objects.all()
         print(entries)
         self.assertTrue(len(entries) == 0)
+    
+    def test_search_by_title(self):
+        """
+        method checks if a journal entry object is searched by title
+        """
+        entry = JournalEntry.objects.create(author=self.profile, title="test title to search", body="test body", is_archived=False)
+        search = entry.search_by_title("test title to search")
+        initial_project = JournalEntry.objects.filter(pk=entry.pk)
+        self.assertQuerySetEqual(search, initial_project, transform=lambda x:x)
+    
+    def test_search_by_archive_status(self):
+        """
+        method checks if a journal entry object is searched by archive status
+        """
+        entry = JournalEntry.objects.create(author=self.profile, title="test title to search", body="test body", is_archived=False)
+        search = entry.search_by_archive_status(False)
+        
+        self.assertTrue(len(search) > 0)
+    
+    def test_search_by_tags(self):
+        """
+        method checks if a journal entry object is searched by tags
+        """
+        entry = JournalEntry.objects.create(author=self.profile, title="test title to search", body="test body", is_archived=False)
+        search = entry.search_by_tags("test tag")
+        
+        self.assertTrue(len(search) > 0)
